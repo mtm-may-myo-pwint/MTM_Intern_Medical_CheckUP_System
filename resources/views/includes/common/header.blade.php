@@ -11,11 +11,11 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">{{ __('Posts') }}</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('user.list') }}">{{ __('Users') }}</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ route('hospital.index') }}">{{ __('Hospital') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">{{ __('Settings') }}</a>
