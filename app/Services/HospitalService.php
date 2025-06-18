@@ -11,7 +11,7 @@ class HospitalService
     // Fetch Hospital List
     public function getHospitalList()
     {
-        return Hospital::paginate(5);
+        return Hospital::paginate(10);
     }
 
     // Store and Update Hospital
