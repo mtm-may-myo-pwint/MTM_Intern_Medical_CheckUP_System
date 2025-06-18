@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -19,6 +20,12 @@ Route::middleware('auth')->prefix('user')->group(function () {
     // Hospital management
     Route::get('/hospital',[HospitalController::class, 'getHospital'])->name('hospital.index');
     Route::post('/hospital',[HospitalController::class, 'storeHospital'])->name('hospital.store');
-    Route::get('/hospital/getData',[HospitalController::class,'getData'])->name('hospial.getdata');
+    Route::get('/hospital/getData',[HospitalController::class,'getData'])->name('hospital.getdata');
     Route::delete('/hospital/{id}', [HospitalController::class,'deleteHospital'])->name('hospital.delete');
+
+    // Package management
+    Route::get('/package',[PackageController::class, 'getPackage'])->name('package.index');
+    Route::post('/package',[PackageController::class, 'storePackage'])->name('package.store');
+     Route::get('/package/getData',[PackageController::class,'getData'])->name('package.getdata');
+    Route::delete('/package/{id}', [PackageController::class,'deletePackage'])->name('package.delete');
 });

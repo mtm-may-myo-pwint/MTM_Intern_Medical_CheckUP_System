@@ -12,4 +12,9 @@ class GeneralConst
         self::ADMIN => 'Admin',
         self::USER => 'User',
     ];
+
+    public const package_type = [
+        0 => 'Old',
+        1 => 'New'
+    ];
 }

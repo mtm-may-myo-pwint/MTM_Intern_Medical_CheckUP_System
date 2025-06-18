@@ -1,4 +1,4 @@
-<footer class="footer bg-light mt-5 text-center position-strip w-100 bottom-0">
+<footer class="footer bg-light mt-5 text-center position-fixed w-100 bottom-0">
     <div class="row">
         <div class="col-md-12">
             <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>

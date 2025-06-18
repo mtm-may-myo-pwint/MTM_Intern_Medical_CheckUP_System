@@ -12,10 +12,17 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user.list') }}">{{ __('Users') }}</a>
+                            <a class="nav-link {{ request()->routeIs('user.list') ? 'active' : '' }} me-2 "  href="{{ route('user.list') }}">{{ __('Users') }}</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{ route('hospital.index') }}">{{ __('Hospital') }}</a>
+                            <a class="nav-link {{ request()->routeIs('hospital.index') ? 'active' : '' }} me-2" href="{{ route('hospital.index') }}">
+                              {{ __('Hospital') }}
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link {{ request()->routeIs('package.index') ? 'active' : '' }} me-2" href="{{ route('package.index') }}">
+                              {{ __('Package') }}
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">{{ __('Settings') }}</a>
@@ -25,6 +32,7 @@
                         @csrf
                         <button class="btn btn-outline-success my-2 my-sm-0 ml-auto" type="submit" name="logout">
                             {{ __('Logout') }}
+                        </button>
                     </form>
                 </div>
             </nav>

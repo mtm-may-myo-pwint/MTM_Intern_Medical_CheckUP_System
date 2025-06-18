@@ -98,7 +98,7 @@
                                 <th>{{ __('Hospital Image') }}</th>
                                 <th>{{ __('Hospital Address') }}</th>
                                 <th>{{ __('Phone Number') }}</th>
-                                <th colspan="2">{{ __('Action') }}</th>
+                                <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
