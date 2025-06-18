@@ -26,7 +26,27 @@ class HospitalController extends Controller
 
     public function storeHospital(HospitalSaveRequest $request)
     {
+        // dd($request->all());
         $this->hospital_service->storeHospital($request);
+
+        if($request->hospital_id)
+        {
+            return redirect()->route('hospital.index')->with('success', 'Hospital updated successfully.');
+        }
         return redirect()->route('hospital.index')->with('success', 'Hospital created successfully.');
+    }
+
+    public function getData(Request $request)
+    {
+        $hospital = $this->hospital_service->getData($request);
+        return response()->json([
+            'data' => $hospital
+        ]);
+    }
+
+    public function deleteHospital($id)
+    {
+        $this->hospital_service->deleteHospital($id);
+        return redirect()->route('hospital.index')->with('error', 'Hospital deleted successfully.');
     }
 }

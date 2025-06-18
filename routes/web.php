@@ -19,4 +19,6 @@ Route::middleware('auth')->prefix('user')->group(function () {
     // Hospital management
     Route::get('/hospital',[HospitalController::class, 'getHospital'])->name('hospital.index');
     Route::post('/hospital',[HospitalController::class, 'storeHospital'])->name('hospital.store');
+    Route::get('/hospital/getData',[HospitalController::class,'getData'])->name('hospial.getdata');
+    Route::delete('/hospital/{id}', [HospitalController::class,'deleteHospital'])->name('hospital.delete');
 });

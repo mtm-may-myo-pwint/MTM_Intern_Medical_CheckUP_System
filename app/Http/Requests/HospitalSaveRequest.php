@@ -26,7 +26,7 @@ class HospitalSaveRequest extends FormRequest
             $rules = [
                 'hospital_name'     => 'required|string|max:255',
                 'hospital_address'  => 'required|string',
-                // 'hospital_ph_no'    => 'required|phone'
+                'hospital_image'    => 'nullable|image|max:5120',
                 'hospital_ph_no'    => 'required|string|min:6|max:12'
             ];
         }
