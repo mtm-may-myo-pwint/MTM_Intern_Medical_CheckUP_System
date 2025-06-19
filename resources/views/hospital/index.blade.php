@@ -123,13 +123,13 @@
                                     <td>{{ $hospital->hospital_ph_no ?? '' }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="#" class="btn btn-sm btn-outline-primary me-2 editbtn" data-id="{{ $hospital->id }}">{{__('Edit')}}</a>
+                                            <a href="#" class="btn btn-sm btn-outline-primary me-2 editbtn" data-id="{{ $hospital->id }}"><i class="fas fa-pen-to-square"></i></a>
                                             <form method="POST" action="{{ route('hospital.delete', $hospital->id) }}" onsubmit="return confirm('Please confirm you want to delete!')">
                                                 @csrf
                                                 @method('DELETE')
     
                                                 <button type="submit" class="btn btn-outline-danger btn-sm btn-delete">
-                                                    {{ __('Delete') }}
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
                                         </div>

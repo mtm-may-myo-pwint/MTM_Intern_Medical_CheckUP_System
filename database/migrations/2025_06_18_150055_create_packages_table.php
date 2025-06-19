@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('package_price', 8, 2);
             $table->unsignedBigInteger('hospital_id');
             $table->foreign('hospital_id')->references('id')->on('hospitals');
-            $table->integer('package_type');
+            $table->integer('package_type')->comment('0:old package; 1:new package');
             $table->string('package_year',50);
             $table->string('package_image')->nullable();
             $table->softDeletes();

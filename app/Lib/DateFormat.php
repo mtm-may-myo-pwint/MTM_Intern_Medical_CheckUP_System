@@ -28,7 +28,7 @@ class DateFormat
     {
         $carbon = new Carbon($date);
         if ($date) {
-            return $carbon->format('Y/m/d');
+            return $carbon->format('d/m/Y');
         }
     }
 

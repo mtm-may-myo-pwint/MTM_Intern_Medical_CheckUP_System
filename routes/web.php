@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -26,6 +27,9 @@ Route::middleware('auth')->prefix('user')->group(function () {
     // Package management
     Route::get('/package',[PackageController::class, 'getPackage'])->name('package.index');
     Route::post('/package',[PackageController::class, 'storePackage'])->name('package.store');
-     Route::get('/package/getData',[PackageController::class,'getData'])->name('package.getdata');
+    Route::get('/package/getData',[PackageController::class,'getData'])->name('package.getdata');
     Route::delete('/package/{id}', [PackageController::class,'deletePackage'])->name('package.delete');
+
+    // Employee management
+    Route::resource('employee', EmployeeController::class);
 });

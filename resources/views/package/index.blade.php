@@ -122,7 +122,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-center mt-3">
+                            <div class="d-flex justify-content-center mt-4">
                                 <div>
                                     <button type="submit" class="btn btn-outline-success px-5 mx-3">{{ __('Submit') }}</button>
                                     <button class="btn btn-outline-primary px-5 clear">{{ __('Clear') }}</button>
@@ -159,13 +159,13 @@
                                     <td class="text-center">{{ $package->hospital->hospital_name ?? '' }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="#" class="btn btn-sm btn-outline-primary me-2 editbtn" data-id="{{ $package->id }}">{{__('Edit')}}</a>
+                                            <a href="#" class="btn btn-sm btn-outline-primary me-2 editbtn" data-id="{{ $package->id }}"><i class="fas fa-pen-to-square"></i></a>
                                             <form method="POST" action="{{ route('package.delete', $package->id) }}" onsubmit="return confirm('Please confirm you want to delete!')">
                                                 @csrf
                                                 @method('DELETE')
     
                                                 <button type="submit" class="btn btn-outline-danger btn-sm btn-delete">
-                                                    {{ __('Delete') }}
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
                                         </div>

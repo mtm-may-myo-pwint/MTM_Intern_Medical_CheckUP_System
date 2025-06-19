@@ -1,4 +1,4 @@
-<header class="container-fluid bg-light p-3 mb-4">
+<header class="container-fluid bg-light p-3 mb-4 position-strip w-100 top-0">
     @php
         use App\Constants\GeneralConst;
     @endphp
@@ -12,26 +12,30 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('user.list') ? 'active' : '' }} me-2 "  href="{{ route('user.list') }}">{{ __('Users') }}</a>
+                            <a class="nav-link {{ request()->routeIs('user.list') ? 'active' : '' }} me-2 "  href="{{ route('user.list') }}">
+                                <i class="fas fa-address-book"></i> {{ __('Users') }}
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link {{ request()->routeIs('employee.index') ? 'active' : '' }} me-2" href="{{ route('employee.index') }}">
+                              <i class="fas fa-user-tie"></i> {{ __('Employee') }}
+                            </a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link {{ request()->routeIs('hospital.index') ? 'active' : '' }} me-2" href="{{ route('hospital.index') }}">
-                              {{ __('Hospital') }}
+                              <i class="fas fa-hospital"></i> {{ __('Hospital') }}
                             </a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link {{ request()->routeIs('package.index') ? 'active' : '' }} me-2" href="{{ route('package.index') }}">
-                              {{ __('Package') }}
+                             <i class="fas fa-list-check"></i> {{ __('Package') }}
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">{{ __('Settings') }}</a>
                         </li>
                     </ul>
                     <form action="{{ route('logout') }}" method="post">
                         @csrf
                         <button class="btn btn-outline-success my-2 my-sm-0 ml-auto" type="submit" name="logout">
-                            {{ __('Logout') }}
+                          <i class="fas fa-right-from-bracket"></i>  {{ __('Logout') }}
                         </button>
                     </form>
                 </div>
