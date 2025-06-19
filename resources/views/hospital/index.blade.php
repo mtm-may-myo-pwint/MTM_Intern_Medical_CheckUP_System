@@ -15,7 +15,7 @@
         <div class="card-body">
             <h3 class="text-center mb-3">Hospital</h3>
             <div class="d-flex justify-content-center align-items-center">
-                <div class="card w-100 shadow p-3 mb-5 bg-white rounded" style="max-width:650px;" >
+                <div class="card w-100 shadow p-3 mb-5 bg-white rounded" style="max-width:700px;" >
                     <!-- <div class="card-header">
                     </div> -->
                     <div class="card-body">
@@ -27,7 +27,7 @@
                                     <label for="hospital_name" class="text-muted required">{{ __('Hospital Name') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control  @error('hospital_name') is-invalid @enderror" id="hospital_name" name="hospital_name" value="{{ old('hospital_name','') }}">
+                                    <input type="text" class="form-control  @error('hospital_name') is-invalid @enderror" id="hospital_name" name="hospital_name" value="{{ old('hospital_name','') }}" required>
                                     @error('hospital_name')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -40,8 +40,14 @@
                                     <label for="hospital_image" class="text-muted">{{ __('Hospital Image') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="file" class="form-control  @error('hospital_image') is-invalid @enderror" id="hospital_image" name="hospital_image" accept="image/*" value="{{ old('hospital_image','') }}">
-                                    <div class="mt-3" id="image_preview"></div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="mb-3" id="image_preview"></div>
+                                        <div class="form-check mt-2 mb-2" id="remove_image" style="display:none;">
+                                            <input type="checkbox" class="form-check-input" id="remove_hospital_image" name="remove_hospital_image" value="1">
+                                            <label class="form-check-label" for="remove_hospital_image">Remove current image</label>
+                                        </div>
+                                    </div>
+                                    <input type="file" class="form-control mb-3  @error('hospital_image') is-invalid @enderror" id="hospital_image" name="hospital_image" accept="image/*" value="{{ old('hospital_image','') }}">
                                     @error('hospital_image')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -55,7 +61,7 @@
                                     <label for="hospital_address" class="text-muted required">{{ __('Hospital Address') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control  @error('hospital_address') is-invalid @enderror" id="hospital_address" name="hospital_address" value="{{ old('hospital_address','') }}">
+                                    <input type="text" class="form-control  @error('hospital_address') is-invalid @enderror" id="hospital_address" name="hospital_address" value="{{ old('hospital_address','') }}" required>
                                     @error('hospital_address')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -68,7 +74,7 @@
                                     <label for="hospital_ph_no" class="text-muted required">{{ __('Phone Number') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control  @error('hospital_ph_no') is-invalid @enderror" id="hospital_ph_no" name="hospital_ph_no" value="{{ old('hospital_ph_no','') }}">
+                                    <input type="text" class="form-control  @error('hospital_ph_no') is-invalid @enderror" id="hospital_ph_no" name="hospital_ph_no" value="{{ old('hospital_ph_no','') }}" required>
                                     @error('hospital_ph_no')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -166,8 +172,15 @@
                 // $('#hospital_image').val(response.data.hospital_image);
 
                 if (response.data.hospital_image) {
-                   $('#image_preview').html(
+                    $('#remove_image').show();
+                    $('#remove_package_image').prop('checked', false);
+                    $('#image_preview').html(
                         `<img src="{{ asset('storage') }}/${response.data.hospital_image}" width="100">`
+                    );
+                }else{
+                    $('#remove_image').hide();
+                    $('#image_preview').html(
+                        `<img src="{{ asset('img/image_not_found.jpg') }}" width="100">`
                     );
                 }
                 
@@ -184,7 +197,9 @@
         $('#hospital_image').val('');
         $('#hospital_address').val('');
         $('#hospital_ph_no').val('');
-         $('#image_preview').html('');
+        $('#hospital_image').val('');
+        $('#image_preview').html('');
+        $('#remove_image').hide();
    })
 </script>
 @endsection

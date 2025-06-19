@@ -29,13 +29,21 @@ class PackageController extends Controller
 
     public function storePackage(PackageSaveRequest $request)
     {
+        // dd($request->all());
         $this->package_service->storePackage($request);
+        if($request->package_id)
+        {
+            return redirect()->route('package.index')->with('success', 'Package updated successfully.');
+        }
         return redirect()->route('package.index')->with('success', 'Package created successfully.');
     }
 
     public function getData(Request $request)
     {
-
+        $package = $this->package_service->getData($request);
+        return response()->json([
+            'data' => $package
+        ]);
     }
 
     public function deletePackage($id)

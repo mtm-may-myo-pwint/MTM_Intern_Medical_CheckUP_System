@@ -24,7 +24,33 @@ class PackageService
             
             $package = $id ? Package::findOrFail($id) : new Package();
 
+
             $package->fill($request->except('package_image'));
+
+           if ($request->hasFile('package_image')) {
+
+                if ($package->package_image) {
+                    if (Storage::disk('public')->exists($package->package_image)) {
+                        Storage::disk('public')->delete($package->package_image);
+                    }
+                }
+
+                $image = $request->file('package_image');
+                $path = $image->store('packages', 'public');
+                $package->package_image = $path;
+
+            } elseif ($request->has('remove_package_image') && $request->remove_package_image == '1') {
+
+                if ($package->package_image) {
+                    if (Storage::disk('public')->exists($package->package_image)) {
+                        Storage::disk('public')->delete($package->package_image);
+                    }
+                }
+
+                $package->package_image = null;
+            }
+
+
             $package->save();
 
             DB::commit();
@@ -36,7 +62,15 @@ class PackageService
         }
     }
 
-    // Delete Hospital
+    // Get Package Data for Edit 
+    public function getData(Request $request)
+    {
+        $id = $request->id;
+        $package = Package::findOrFail($id);
+        return $package;
+    }
+
+    // Delete Package
     public function deletePackage($id)
     {
         try{

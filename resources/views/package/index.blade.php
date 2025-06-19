@@ -30,7 +30,7 @@
                                     <label for="package_name" class="text-muted required mt-1">{{ __('Package Name') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control  @error('package_name') is-invalid @enderror" id="package_name" name="package_name" value="{{ old('package_name','') }}">
+                                    <input type="text" class="form-control  @error('package_name') is-invalid @enderror" id="package_name" name="package_name" value="{{ old('package_name','') }}" required>
                                     @error('package_name')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -43,7 +43,7 @@
                                     <label for="package_price" class="text-muted required mt-1">{{ __('Package Price') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control  @error('package_price') is-invalid @enderror" id="package_price" name="package_price" value="{{ old('package_price','') }}">
+                                    <input type="text" class="form-control  @error('package_price') is-invalid @enderror" id="package_price" name="package_price" value="{{ old('package_price','') }}" required>
                                     @error('package_price')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -56,10 +56,12 @@
                                     <label for="package_type" class="text-muted required mt-1">{{ __('Package Type') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <select class="form-control  @error('package_type') is-invalid @enderror" id="package_type" name="package_type">
+                                    <select class="form-control  @error('package_type') is-invalid @enderror" id="package_type" name="package_type" required>
                                         <option value="">{{ __('Select Package') }}</option>
                                         @foreach (GeneralConst::package_type as $key => $package)
-                                            <option value="{{ $key }}" {{ (old('package_type', '') == $key) ? 'selected' : '' }}>{{ $package }}</option>
+                                             <option value="{{ $key }}" {{ old('package_type') !== null && old('package_type') == $key ? 'selected' : '' }} >
+                                                {{ $package }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     @error('package_type')
@@ -74,7 +76,7 @@
                                     <label for="package_year" class="text-muted required mt-1">{{ __('Package Year') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" class="form-control  @error('package_year') is-invalid @enderror" id="package_year" name="package_year" value="{{ old('package_year','') }}">
+                                    <input type="number" class="form-control  @error('package_year') is-invalid @enderror" id="package_year" name="package_year" value="{{ old('package_year','') }}" required>
                                     @error('package_year')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -87,9 +89,14 @@
                                     <label for="package_image" class="text-muted">{{ __('Package Image') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="{{ asset('img/image_not_found.jpg') }}" style="width:280px;">
-                                    <input type="file" class="form-control mt-3  @error('package_image') is-invalid @enderror" id="package_image" name="package_image" accept="image/*" value="{{ old('package_image','') }}">
-                                    <div class="mt-3" id="image_preview"></div>
+                                    <img id="package_image_preview" src="{{ asset('img/image_not_found.jpg') }}" style="width:280px;">
+
+                                    <div class="form-check mt-2 mb-2" id="remove_image" style="display:none;">
+                                        <input type="checkbox" class="form-check-input" id="remove_package_image" name="remove_package_image" value="1">
+                                        <label class="form-check-label" for="remove_package_image">Remove current image</label>
+                                    </div>
+
+                                    <input type="file" class="form-control mt-3 mb-4 @error('package_image') is-invalid @enderror" id="package_image" name="package_image" accept="image/*" value="{{ old('package_image','') }}">
                                     @error('package_image')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -99,10 +106,10 @@
                             </div>
                             <div class="form-group row mt-3">
                                 <div class="col-md-6 text-center">
-                                    <label for="hospital_id" class="text-muted mt-1">{{ __('Hospital Name') }}</label>
+                                    <label for="hospital_id" class="text-muted required mt-1">{{ __('Hospital Name') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <select class="form-control  @error('hospital_id') is-invalid @enderror" id="hospital_id" name="hospital_id">
+                                    <select class="form-control  @error('hospital_id') is-invalid @enderror" id="hospital_id" name="hospital_id" required>
                                         <option value="">{{ __('Select Hospital') }}</option>
                                         @foreach ($hospitals as $hospital)
                                             <option value="{{ $hospital->id }}" {{ (old('hospital_id', '') == $key) ? 'selected' : '' }}>{{ $hospital->hospital_name }}</option>
@@ -175,4 +182,57 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+   $('.editbtn').on('click',function(e){
+        e.preventDefault();
+
+        const id = $(this).data('id');
+        console.log('id',id);
+
+        $.ajax({
+            url: 'package/getData',
+            type: 'GET',
+            data: {
+                id: id
+            },
+            success: function(response){
+                console.log(response);
+
+                $('#package_id').val(response.data.id);
+                $('#package_name').val(response.data.package_name);
+                $('#package_price').val(response.data.package_price);
+                $('#package_year').val(response.data.package_year);
+                $('#package_type').val(response.data.package_type);
+                $('#hospital_id').val(response.data.hospital_id);
+
+                
+                if (response.data.package_image) {
+                    $('#remove_image').show();
+                    $('#remove_package_image').prop('checked', false);
+                    $('#package_image_preview').attr('src', '/storage/' + response.data.package_image);
+                } else {
+                    $('#package_image_preview').attr('src', '{{ asset('img/image_not_found.jpg') }}');
+                    $('#remove_image').hide();
+                }
+            }
+        })
+        
+   })
+
+   $('.clear').on('click',function(e){
+        e.preventDefault();
+
+        $('#package_id').val('');
+        $('#package_name').val('');
+        $('#package_price').val('');
+        $('#package_year').val('');
+        $('#package_type').val('');
+        $('#hospital_id').val('');
+        $('#package_image').val('');
+        $('#package_image_preview').attr('src', '{{ asset('img/image_not_found.jpg') }}');
+        $('#remove_image').hide();
+   })
+</script>
 @endsection

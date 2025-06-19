@@ -28,15 +28,25 @@ class HospitalService
 
             if ($request->hasFile('hospital_image')) {
 
-                if ( $hospital->hospital_image ) {
+                if ($hospital->hospital_image) {
                     if (Storage::disk('public')->exists($hospital->hospital_image)) {
                         Storage::disk('public')->delete($hospital->hospital_image);
                     }
                 }
 
                 $image = $request->file('hospital_image');
-                $path = $image->store('hospitals', 'public'); 
-                $hospital->hospital_image = $path; 
+                $path = $image->store('hospitals', 'public');
+                $hospital->hospital_image = $path;
+
+            } elseif ($request->has('remove_hospital_image') && $request->remove_hospital_image == '1') {
+
+                if ($hospital->hospital_image) {
+                    if (Storage::disk('public')->exists($hospital->hospital_image)) {
+                        Storage::disk('public')->delete($hospital->hospital_image);
+                    }
+                }
+
+                $hospital->hospital_image = null;
             }
 
             $hospital->save();

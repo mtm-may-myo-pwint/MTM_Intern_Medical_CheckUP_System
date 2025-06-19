@@ -29,6 +29,7 @@ class PackageSaveRequest extends FormRequest
                 'package_type'      => 'required|integer',
                 'package_year'      => 'required',
                 'package_image'     => 'nullable|image',
+                'hospital_id'       => 'required'
             ];
         }
         return $rules;
