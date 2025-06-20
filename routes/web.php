@@ -32,4 +32,5 @@ Route::middleware('auth')->prefix('user')->group(function () {
 
     // Employee management
     Route::resource('employee', EmployeeController::class);
+    Route::post('employee/import',[EmployeeController::class, 'importExcel'])->name('employee.import');
 });

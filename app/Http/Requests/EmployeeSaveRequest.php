@@ -23,14 +23,14 @@ class EmployeeSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_number' => 'required|string|' . Rule::unique('employees', 'employee_number')->ignore($this->route('id')),
+            'employee_number' => 'required|string|' . Rule::unique('employees', 'employee_number')->ignore($this->route('employee')?->id),
             'name'              => 'required|string|max:100',
             'email'             => 'required|email|max:50',
             'position'          => 'required|integer',
             'gender'            => 'required|string',
             'entry_date'        => 'required|date',
-            'member_type'       => 'required|integer',
-            'password'          => Rule::requiredIf(!$this->route('id')) . '|string|min:8|max:64',
+            'member_type'       => 'required|boolean',
+            'password'          => Rule::requiredIf(!$this->route('employee')?->id) . '|string|min:8|max:64',
         ];  
     }
 }

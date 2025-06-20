@@ -58,7 +58,7 @@
                                 <div class="col-md-6">
                                     <select class="form-control  @error('package_type') is-invalid @enderror" id="package_type" name="package_type" required>
                                         <option value="">{{ __('Select Package') }}</option>
-                                        @foreach (GeneralConst::package_type as $key => $package)
+                                        @foreach (GeneralConst::PACKAGE_TYPES as $key => $package)
                                              <option value="{{ $key }}" {{ old('package_type') !== null && old('package_type') == $key ? 'selected' : '' }} >
                                                 {{ $package }}
                                             </option>
@@ -154,7 +154,7 @@
                                     <td>{{ $package->id }}</td>
                                     <td class="text-center">{{ $package->package_name ?? '' }}</td>
                                     <td class="text-end">{{ $package->package_price ?? '' }}</td>
-                                    <td class="text-center">{{ GeneralConst::package_type[$package->package_type] ?? '' }}</td>
+                                    <td class="text-center">{{ GeneralConst::PACKAGE_TYPES[$package->package_type] ?? '' }}</td>
                                     <td class="text-center">{{ $package->package_year ?? '' }}</td>
                                     <td class="text-center">{{ $package->hospital->hospital_name ?? '' }}</td>
                                     <td>

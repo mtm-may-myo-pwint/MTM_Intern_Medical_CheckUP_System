@@ -40,6 +40,21 @@ class EmployeeService
             throw $e;
         }
     }
+    public function updateEmployee(Request $request , Employee $employee)
+    {
+        try {
+            DB::beginTransaction();
+
+            $employee->update($request->all());
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            // Handle exception
+            DB::rollBack();
+            throw $e;
+        }
+    }
 
     public function deleteEmployee($id)
     {

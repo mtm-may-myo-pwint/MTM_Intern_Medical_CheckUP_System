@@ -13,21 +13,31 @@ class GeneralConst
         self::USER => 'User',
     ];
 
-    public const package_type = [
-        0 => 'Old',
-        1 => 'New'
+    public const OLD = 0;
+    public const NEW = 1;
+    public const PACKAGE_TYPES = [
+        self::OLD => 'Old',
+        self::NEW => 'New'
     ];
 
-    public const position = [
-        1 => 'JE',
-        2 => 'SE',
-        3 => 'SL',
-        4 => 'L',
-        5 => 'PM'
+    public const MEMBER_TYPES = [
+        self::OLD => 'Old',
+        self::NEW => 'New'
     ];
 
-    public const member_type = [
-        0 => 'Old',
-        1 => 'New'
+    public const JE = 1 ;
+    public const SE = 2 ;
+    public const SL = 3 ;
+    public const L = 4 ;
+    public const PM = 5 ;
+    public const POSITION = [
+        self::JE => 'JE',
+        self::SE => 'SE',
+        self::SL => 'SL',
+        self::L => 'L',
+        self::PM => 'PM'
     ];
+
+
+    
 }

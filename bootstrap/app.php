@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
          */
         $middleware->alias([
             'auth' => \App\Http\Middleware\Authenticate::class,
+            'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
