@@ -142,7 +142,10 @@
                             <select class="form-control  @error('member_type') is-invalid @enderror" id="member_type" name="member_type" >
                                 <option value="">{{ __('Select Member Type') }}</option>
                                 @foreach (GeneralConst::MEMBER_TYPES as $key => $member_type)
-                                        <option value="{{ $key }}" {{ old('member_type', $employee->member_type ?? '') == $key ? 'selected' : '' }} >
+                                        <option value="{{ $key }}" 
+                                            {{ (old('member_type') ?? ($employee->member_type ?? '')) == $key ? 'selected' : '' }}>
+                                            {{ $member_type }}
+                                        </option>
                                         {{ $member_type }}
                                     </option>
                                 @endforeach

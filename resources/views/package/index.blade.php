@@ -158,6 +158,7 @@
                                     <td class="text-center">{{ $package->package_year ?? '' }}</td>
                                     <td class="text-center">{{ $package->hospital->hospital_name ?? '' }}</td>
                                     <td>
+                                        @can('is_admin')
                                         <div class="d-flex">
                                             <a href="#" class="btn btn-sm btn-outline-primary me-2 editbtn" data-id="{{ $package->id }}"><i class="fas fa-pen-to-square"></i></a>
                                             <form method="POST" action="{{ route('package.delete', $package->id) }}" onsubmit="return confirm('Please confirm you want to delete!')">
@@ -169,6 +170,7 @@
                                                 </button>
                                             </form>
                                         </div>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Hospital;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Services\PackageService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\PackageSaveRequest;
 
 class PackageController extends Controller
@@ -19,6 +21,8 @@ class PackageController extends Controller
 
      public function getPackage()
     {
+        abort_if(Gate::denies('is_admin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         $packages = $this->package_service->getPackageList();
 
         return view('package.index', [

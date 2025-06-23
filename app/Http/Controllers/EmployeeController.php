@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Imports\EmployeeImport;
 use App\Services\EmployeeService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\EmployeeSaveRequest;
 
@@ -19,9 +21,11 @@ class EmployeeController extends Controller
         $this->employee_service = new EmployeeService();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $employees = $this->employee_service->getEmployeeList();
+        abort_if(Gate::denies('is_admin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $employees = $this->employee_service->getEmployeeList($request);
         return view('employee.index', [
             'employees' => $employees,
         ]);
@@ -30,6 +34,8 @@ class EmployeeController extends Controller
     
     public function create()
     {
+        abort_if(Gate::denies('is_admin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $employee = new Employee();
         return view('employee.save',[
             'employee'  => $employee
@@ -53,6 +59,8 @@ class EmployeeController extends Controller
     
     public function edit(string $id)
     {
+        abort_if(Gate::denies('is_admin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         $employee = Employee::findOrFail($id);
         return view('employee.save',[
             'employee'  => $employee
@@ -76,32 +84,23 @@ class EmployeeController extends Controller
 
     public function importExcel(Request $request)
     {
-        try {
-            if ($request->file) {
+        if ($request->file) {
 
+            try{
                 $import = new EmployeeImport();
 
                 Excel::import($import, $request->file('file')->store('files'));
 
-                $failures = $import->failures();
-
-                if ($failures->isNotEmpty()) {
-                    $errorMessages = [];
-
-                    foreach ($failures as $failure) {
-                        $row = $failure->row();
-                        $attribute = $failure->attribute();
-                        $errors = implode(', ', $failure->errors());
-                        $errorMessages[] = "Row {$row} - {$attribute}: {$errors}";
-                    }
-
-                    return redirect()->back()->withErrors($errorMessages);
+                if (session()->has('errors')) {
+                    return redirect()->back()->withErrors(session('errors'));
                 }
+
+                return redirect()->back()->with('success', 'Employee data successfully imported.');
+
+            } catch (ValidationException $e) {
+                return redirect()->back()->withErrors($e->validator->errors());
             }
 
-            return redirect()->back()->with('success', 'Employee data successfully imported.');
-        } catch (ValidationException $e) {
-            return redirect()->back()->withErrors($e->validator->errors());
         }
     }
 }

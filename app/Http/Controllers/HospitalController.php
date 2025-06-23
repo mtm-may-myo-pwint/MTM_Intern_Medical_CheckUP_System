@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Services\HospitalService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\HospitalSaveRequest;
 
 class HospitalController extends Controller
@@ -18,10 +20,12 @@ class HospitalController extends Controller
 
     public function getHospital()
     {
+        abort_if(Gate::denies('is_admin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         $hospitals = $this->hospital_service->getHospitalList();
         return view('hospital.index', [
             'hospitals' => $hospitals,
-        ]);
+        ]); 
     }
 
     public function storeHospital(HospitalSaveRequest $request)

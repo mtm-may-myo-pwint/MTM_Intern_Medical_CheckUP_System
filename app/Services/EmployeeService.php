@@ -10,9 +10,15 @@ use Illuminate\Support\Facades\Hash;
 class EmployeeService
 {
 
-    public function getEmployeeList()
+    public function getEmployeeList(Request $request)
     {
-        return Employee::paginate(10);
+        $data = Employee::query();
+        if(!empty($request->search))
+        {
+            $data = $data->where('name', 'LIKE', '%' . $request->search . '%');
+        }
+        $employee = $data->paginate(10);
+        return $employee;
     }
 
     public function storeEmployee(Request $request)

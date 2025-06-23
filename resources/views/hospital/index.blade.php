@@ -27,7 +27,7 @@
                                     <label for="hospital_name" class="text-muted required">{{ __('Hospital Name') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control  @error('hospital_name') is-invalid @enderror" id="hospital_name" name="hospital_name" value="{{ old('hospital_name','') }}" required>
+                                    <input type="text" class="form-control  @error('hospital_name') is-invalid @enderror" id="hospital_name" name="hospital_name" value="{{ old('hospital_name','') }}">
                                     @error('hospital_name')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -61,7 +61,7 @@
                                     <label for="hospital_address" class="text-muted required">{{ __('Hospital Address') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control  @error('hospital_address') is-invalid @enderror" id="hospital_address" name="hospital_address" value="{{ old('hospital_address','') }}" required>
+                                    <input type="text" class="form-control  @error('hospital_address') is-invalid @enderror" id="hospital_address" name="hospital_address" value="{{ old('hospital_address','') }}">
                                     @error('hospital_address')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -74,7 +74,7 @@
                                     <label for="hospital_ph_no" class="text-muted required">{{ __('Phone Number') }}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control  @error('hospital_ph_no') is-invalid @enderror" id="hospital_ph_no" name="hospital_ph_no" value="{{ old('hospital_ph_no','') }}" required>
+                                    <input type="text" class="form-control  @error('hospital_ph_no') is-invalid @enderror" id="hospital_ph_no" name="hospital_ph_no" value="{{ old('hospital_ph_no','') }}">
                                     @error('hospital_ph_no')
                                         <div class="text-danger">
                                             {{ $message }}
@@ -122,6 +122,7 @@
                                     <td>{{ $hospital->hospital_address ?? '' }}</td>
                                     <td>{{ $hospital->hospital_ph_no ?? '' }}</td>
                                     <td>
+                                        @can('is_admin')
                                         <div class="d-flex">
                                             <a href="#" class="btn btn-sm btn-outline-primary me-2 editbtn" data-id="{{ $hospital->id }}"><i class="fas fa-pen-to-square"></i></a>
                                             <form method="POST" action="{{ route('hospital.delete', $hospital->id) }}" onsubmit="return confirm('Please confirm you want to delete!')">
@@ -133,6 +134,7 @@
                                                 </button>
                                             </form>
                                         </div>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

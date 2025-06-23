@@ -16,6 +16,7 @@
                                 <i class="fas fa-address-book"></i> {{ __('Users') }}
                             </a>
                         </li>
+                        @can('is_admin')
                         <li class="nav-item active">
                             <a class="nav-link {{ request()->routeIs('employee.index') ? 'active' : '' }} me-2" href="{{ route('employee.index') }}">
                               <i class="fas fa-user-tie"></i> {{ __('Employee') }}
@@ -31,6 +32,7 @@
                              <i class="fas fa-list-check"></i> {{ __('Package') }}
                             </a>
                         </li>
+                        @endcan
                     </ul>
                     <form action="{{ route('logout') }}" method="post">
                         @csrf
