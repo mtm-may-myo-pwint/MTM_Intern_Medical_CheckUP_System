@@ -33,7 +33,6 @@
                 <!-- <div class="d-flex justify-content-between"> -->
                     <div class="col-md-4">
                         <form action="">
-                            @csrf 
                             <div class="row">
                                 <div class="col-md-6">
                                     <input class="form-control mr-sm-1" name="search" type="search" placeholder="Search Name" id = "search" aria-label="Search" value="{{ request('search') }}">

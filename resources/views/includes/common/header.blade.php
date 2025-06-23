@@ -32,6 +32,11 @@
                              <i class="fas fa-list-check"></i> {{ __('Package') }}
                             </a>
                         </li>
+                        <li class="nav-item active">
+                            <a class="nav-link {{ request()->routeIs('checkup.history') ? 'active' : '' }} me-2" href="{{ route('checkup.history') }}">
+                             <i class="fas fa-clipboard-list"></i> {{ __('Check-up History') }}
+                            </a>
+                        </li>
                         @endcan
                     </ul>
                     <form action="{{ route('logout') }}" method="post">

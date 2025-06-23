@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CheckUpController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HospitalController;
@@ -33,4 +34,8 @@ Route::middleware('auth')->prefix('user')->group(function () {
     // Employee management
     Route::resource('employee', EmployeeController::class);
     Route::post('employee/import',[EmployeeController::class, 'importExcel'])->name('employee.import');
+
+    // Check-up History
+    Route::get('/checkup-history',[CheckUpController::class,'getCheckUpHistory'])->name('checkup.history');
+    
 });
