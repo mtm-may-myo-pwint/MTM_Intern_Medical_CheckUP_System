@@ -37,5 +37,6 @@ Route::middleware('auth')->prefix('user')->group(function () {
 
     // Check-up History
     Route::get('/checkup-history',[CheckUpController::class,'getCheckUpHistory'])->name('checkup.history');
+    Route::get('/checkup-history/search',[CheckUpController::class,'searchCheckUpHistory'])->name('checkup.history.search');
     
 });

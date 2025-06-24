@@ -15,7 +15,8 @@ class EmployeeSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('employees')->truncate();
+        // DB::table('employees')->truncate();
+        DB::table('employees')->delete();
         Employee::insert([
             [
                 'employee_number'   => "E00001",

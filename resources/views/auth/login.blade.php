@@ -3,6 +3,11 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
+            @if (session()->get('error'))
+                <div class="alert alert-danger">
+                    {{ session()->get('error')}}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header"><h4 class="text-center">{{ __('Login') }}</h4></div>
 

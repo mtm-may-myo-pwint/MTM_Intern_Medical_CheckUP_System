@@ -112,7 +112,7 @@
                                     <select class="form-control  @error('hospital_id') is-invalid @enderror" id="hospital_id" name="hospital_id" required>
                                         <option value="">{{ __('Select Hospital') }}</option>
                                         @foreach ($hospitals as $hospital)
-                                            <option value="{{ $hospital->id }}" {{ (old('hospital_id', '') == $key) ? 'selected' : '' }}>{{ $hospital->hospital_name }}</option>
+                                            <option value="{{ $hospital->id }}" {{ (old('hospital_id') == $hospital->id) ? 'selected' : '' }}>{{ $hospital->hospital_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('hospital_id')

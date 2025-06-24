@@ -31,11 +31,20 @@ class GeneralConst
     public const L = 4 ;
     public const PM = 5 ;
     public const POSITION = [
-        self::JE => 'JE',
-        self::SE => 'SE',
-        self::SL => 'SL',
-        self::L => 'L',
-        self::PM => 'PM'
+        self::JE    => 'JE',
+        self::SE    => 'SE',
+        self::SL    => 'SL',
+        self::L     => 'L',
+        self::PM    => 'PM'
+    ];
+
+    public const INFORM = 1;
+    public const CONFIRM = 2;
+    public const CANCEL = 3;
+    public const STATUS = [
+        self::INFORM    => 'Inform',
+        self::CONFIRM   => 'Confirm',
+        self::CANCEL    => 'Cancel'
     ];
 
 

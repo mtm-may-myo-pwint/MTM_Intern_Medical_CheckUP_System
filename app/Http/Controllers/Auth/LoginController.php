@@ -37,6 +37,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         // dd($user);
+        if($user?->resign_date){
+            return redirect()->route('login')->with('error','Resigned member can\'t be able to login');
+        }
         return redirect()->route('user.list');
     }
 }

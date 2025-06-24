@@ -23,8 +23,21 @@ class CheckUpController extends Controller
         abort_if(Gate::denies('is_admin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         $packages = Package::pluck('package_name', 'id');
+
+        $chechup_history = $this->checkup_service->getCheckUpHistory();
+        // dd($chechup_history);
         return view('checkup.checkup_history',[
-            'packages' => $packages
+            'packages'          => $packages,
+            'checkup_history'   => $chechup_history,
+        ]);
+    }
+
+    public function searchCheckUpHistory(Request $request)
+    {
+        $chechup_history = $this->checkup_service->searchCheckUpHistory($request);
+
+        return response()->json([
+            'data' => $chechup_history,
         ]);
     }
 }

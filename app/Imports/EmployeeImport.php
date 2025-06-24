@@ -22,6 +22,7 @@ class EmployeeImport implements ToCollection,WithHeadingRow
     {
         // dd($rows);
         $errors = [];
+        $data = [];
 
         // reverse the key-value pairs 
         $positionMap = array_flip(GeneralConst::POSITION);
@@ -30,9 +31,16 @@ class EmployeeImport implements ToCollection,WithHeadingRow
         foreach($rows as $index => $row)
         {
             $rowNumber = $index + 2 ; // add 2 to skip heading row
-            
+
+            $dob = $this->parseExcelDate($row['dob']);
+            $entry_date = $this->parseExcelDate($row['entry_date']);
+            $resign_date = $this->parseExcelDate($row['resign_date']);
+
+            $existingEmployee = Employee::where('employee_number',$row['employee_number'])->first();
+
             $validator = Validator::make($row->toArray(),[
-                'employee_number'   => 'required|string|' . Rule::unique('employees', 'employee_number'),
+                // 'employee_number'   => 'required|string|' . Rule::unique('employees', 'employee_number'),
+                'employee_number'   => 'required|string',
                 'name'              => 'required|string|max:100',
                 'email'             => 'required|email|max:50',
                 'position'          => 'required|'. Rule::in(GeneralConst::POSITION),
@@ -47,25 +55,38 @@ class EmployeeImport implements ToCollection,WithHeadingRow
                 }
                 continue;
             }
-            
-            $dob = $this->parseExcelDate($row['dob']);
-            $entry_date = $this->parseExcelDate($row['entry_date']);
-            $resign_date = $this->parseExcelDate($row['resign_date']);
 
-            $data[] = [
-                'employee_number'   => $row['employee_number'],
-                'name'              => $row['name'],
-                'email'             => $row['email'],
-                'password'          => Hash::make("password"),
-                'position'          => $positionMap[$row['position']] ?? null,
-                'dob'               => $dob,
-                'gender'            => $row['gender'],
-                'entry_date'        => $entry_date,
-                'resign_date'       => $resign_date,
-                'member_type'       => $memberMap[$row['member_type']] ?? null,
-                'is_admin'          => 0,
-                'created_at'        => now()
-            ];
+            if($existingEmployee)
+            {
+                $existingEmployee->update([
+                    'employee_number'   => $row['employee_number'],
+                    'name'              => $row['name'],
+                    'email'             => $row['email'],
+                    'position'          => $positionMap[$row['position']] ?? null,
+                    'dob'               => $dob,
+                    'gender'            => $row['gender'],
+                    'entry_date'        => $entry_date,
+                    'resign_date'       => $resign_date,
+                    'member_type'       => $memberMap[$row['member_type']] ?? null,
+                ]);
+            }else{
+    
+                $data[] = [
+                    'employee_number'   => $row['employee_number'],
+                    'name'              => $row['name'],
+                    'email'             => $row['email'],
+                    'password'          => Hash::make("password"),
+                    'position'          => $positionMap[$row['position']] ?? null,
+                    'dob'               => $dob,
+                    'gender'            => $row['gender'],
+                    'entry_date'        => $entry_date,
+                    'resign_date'       => $resign_date,
+                    'member_type'       => $memberMap[$row['member_type']] ?? null,
+                    'is_admin'          => 0,
+                    'created_at'        => now()
+                ];
+            }
+            
         }
 
         if (!empty($errors)) {
@@ -73,7 +94,9 @@ class EmployeeImport implements ToCollection,WithHeadingRow
             return;
         }
 
-        Employee::insert($data);
+        if (!empty($data)) {
+            Employee::insert($data);
+        }
 
     }
 
@@ -86,21 +109,9 @@ class EmployeeImport implements ToCollection,WithHeadingRow
             }
 
             if (is_numeric($value)) {
-                try {
-                    return Date::excelToDateTimeObject($value)->format('Y-m-d');
-                } catch (\Exception $e) {
-                    return null;
-                }
+                return Date::excelToDateTimeObject($value)->format('Y-m-d');
             } else {
-                try {
-                    return Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
-                } catch (\Exception $e) {
-                    try {
-                        return Carbon::parse($value)->format('Y-m-d');
-                    } catch (\Exception $e) {
-                        return null;
-                    }
-                }
+                return Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
             }
         }
 }
