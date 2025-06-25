@@ -186,6 +186,10 @@
                     );
                 }
                 
+            },
+            error: function(request){
+                alert("Something went wrong!");
+                
             }
         })
         

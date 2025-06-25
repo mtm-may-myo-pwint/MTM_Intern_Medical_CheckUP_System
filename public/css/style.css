@@ -6,3 +6,18 @@
     background-color: white !important;
     color: black !important;
 }
+
+html {
+    overflow-y: scroll; /* Always reserve scrollbar space */
+}
+
+.table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+th, td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

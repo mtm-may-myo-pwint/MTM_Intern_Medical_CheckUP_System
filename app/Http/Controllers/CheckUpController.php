@@ -32,12 +32,22 @@ class CheckUpController extends Controller
         ]);
     }
 
+    /*
+    * checkup history filter 
+    */
     public function searchCheckUpHistory(Request $request)
     {
-        $chechup_history = $this->checkup_service->searchCheckUpHistory($request);
+        if ($request->ajax()) {
 
-        return response()->json([
-            'data' => $chechup_history,
-        ]);
+            $checkup_history = $this->checkup_service->searchCheckUpHistory($request);
+            // return $checkup_history;
+            $html = view('checkup.checkup_table', compact('checkup_history'))->render(); 
+            $pagination = $checkup_history->links('pagination::bootstrap-5')->render(); 
+
+            return response()->json([
+                'html' => $html,
+                'pagination' => $pagination,
+            ]);
+        }
     }
 }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('member_type')->comment('new=True, old=False');
             $table->boolean('is_admin')->comment('admin=True, not_admin=False');
             $table->string('gender',20)->nullable();
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

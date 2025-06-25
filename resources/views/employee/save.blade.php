@@ -78,7 +78,7 @@
                         </div>
                         <div class="col-md-6">
                             <!-- <input type="date" class="form-control mb-2  @error('dob') is-invalid @enderror" id="dob" name="dob" value="{{ old('dob','') }}"> -->
-                            <input type="date" class="form-control mb-2  @error('dob') is-invalid @enderror" name="dob" value="{{ old('dob', $employee->dob) }}" placeholder="Select a date">
+                            <input type="date" class="form-control mb-2  @error('dob') is-invalid @enderror" name="dob" value="{{ old('dob', $employee->dob) }}" placeholder="Select a date" max="{{ now()->format('Y-m-d') }}">
                             @error('dob')
                                 <div class="text-danger">
                                     {{ $message }}
@@ -112,7 +112,7 @@
                         </div>
                         <div class="col-md-6">
                             <!-- <input type="date" class="form-control mb-2  @error('entry_date') is-invalid @enderror" id="entry_date" name="entry_date" value="{{ old('entry_date','') }}"> -->
-                            <input type="date" class="form-control  mb-2  @error('entry_date') is-invalid @enderror" name="entry_date" value="{{ old('entry_date', $employee->entry_date) }}" placeholder="Select a date">
+                            <input type="date" class="form-control  mb-2  @error('entry_date') is-invalid @enderror" name="entry_date" value="{{ old('entry_date', $employee->entry_date) }}" placeholder="Select a date" max="{{ now()->format('Y-m-d') }}">
                             @error('entry_date')
                                 <div class="text-danger">
                                     {{ $message }}

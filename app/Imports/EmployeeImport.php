@@ -39,8 +39,8 @@ class EmployeeImport implements ToCollection,WithHeadingRow
             $existingEmployee = Employee::where('employee_number',$row['employee_number'])->first();
 
             $validator = Validator::make($row->toArray(),[
-                // 'employee_number'   => 'required|string|' . Rule::unique('employees', 'employee_number'),
-                'employee_number'   => 'required|string',
+                'employee_number'   => 'required|string|' . Rule::unique('employees', 'employee_number')->ignore($existingEmployee?->id),
+                // 'employee_number'   => 'required|string',
                 'name'              => 'required|string|max:100',
                 'email'             => 'required|email|max:50',
                 'position'          => 'required|'. Rule::in(GeneralConst::POSITION),

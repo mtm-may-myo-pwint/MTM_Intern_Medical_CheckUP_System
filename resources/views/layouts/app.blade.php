@@ -26,7 +26,9 @@
     @include('includes.common.header')
     <!-- content -->
     <main id="main">
-        @yield('content')
+        <div class="container-xxl flex-grow-1 ">
+            @yield('content')
+        </div>
     </main>
     <!-- footer -->
     @include('includes.common.footer')
