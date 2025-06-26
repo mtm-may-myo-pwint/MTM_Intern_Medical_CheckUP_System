@@ -47,6 +47,7 @@ class GeneralConst
         self::CANCEL    => 'Cancel'
     ];
 
-
+    public const TURE = 1;
+    public const FALSE = 0;
     
 }

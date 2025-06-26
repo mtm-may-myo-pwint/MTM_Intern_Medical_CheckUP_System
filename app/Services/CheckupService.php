@@ -2,9 +2,12 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use App\Models\Package;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Constants\GeneralConst;
 use App\Models\EmployeeCheckup;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 
@@ -41,7 +44,7 @@ class CheckupService
 
         $items = $items->toArray();
         
-        $checkup_history = $this->pagination($items , 2);
+        $checkup_history = $this->pagination($items , 10);
 
         return $checkup_history;
     }
@@ -88,11 +91,76 @@ class CheckupService
                             
         $items = $items->toArray();
         
-        $checkup_history = $this->pagination($items , 2);
+        $checkup_history = $this->pagination($items , 10);
       
         return $checkup_history;
     }
 
-   
+    /*
+    * Retrieve checkup current month list
+    * new employee and old employee whose last checkup was over a year ago from the current month
+    */ 
+
+    public function getCheckUpCurrentMonth()
+    {
+        $lastyear = now()->subYear();
+
+        // return $lastyear;
+
+        $employee = Employee::with('employeeCheckup')
+                            ->where('is_admin',GeneralConst::FALSE)
+                            ->whereNull('resign_date')
+                            ->where(function($query) use($lastyear){
+                                $query->where('member_type', GeneralConst::NEW)
+                                    ->orWhere(function($q) use($lastyear) {
+                                        $q->where('member_type', GeneralConst::OLD)
+                                        ->whereRaw('(
+                                            SELECT MAX(checkup_date)
+                                            FROM employee_checkups
+                                            WHERE employee_checkups.employee_id = employees.id
+                                        ) <= ?', [$lastyear])
+                                        ->orWhereDoesntHave('employeeCheckup');
+                                });
+                            })
+                            ->get();
+
+        return $employee;
+    }
+
+    public function getHospital (Request $request){
+
+        $package = Package::with('hospital')->findOrFail($request->package_id);
+
+        return $package;
+        
+    }
+
+    public function informCheckup(Request $request){
+
+        try {
+            DB::beginTransaction();
+
+            if(!empty($request->checkup)){
+
+                foreach($request->checkup as $checkup){
+     
+                     EmployeeCheckup::create([
+                         'employee_id'           => $checkup,
+                         'package_id'            => $request->package_id,
+                         'form_deadline_date'    => $request->deadline_date,
+                         'status'                => GeneralConst::INFORM
+                     ]);
+                }
+            }
+
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            // Handle exception
+            DB::rollBack();
+            throw $e;
+        }
+    }
 
 }

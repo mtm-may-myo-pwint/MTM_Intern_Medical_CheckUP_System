@@ -38,5 +38,10 @@ Route::middleware('auth')->prefix('user')->group(function () {
     // Check-up History
     Route::get('/checkup-history',[CheckUpController::class,'getCheckUpHistory'])->name('checkup.history');
     Route::get('/checkup-history/search',[CheckUpController::class,'searchCheckUpHistory'])->name('checkup.history.search');
+
+    // Check-up Current Month
+    Route::get('/checkup-current-month',[CheckUpController::class,'getCheckUpCurrentMonth'])->name('checkup.current_month');
+    Route::get('/checkup-current-month/getHospital',[CheckUpController::class,'getHospital'])->name('checkup.current_month.gethospital');
+    Route::post('/checkup-current-month/informCheckup',[CheckUpController::class,'informCheckup'])->name('checkup.inform');
     
 });

@@ -50,4 +50,41 @@ class CheckUpController extends Controller
             ]);
         }
     }
+
+    /*
+    ** Checkup Current Month
+    */
+    public function getCheckUpCurrentMonth()
+    {
+
+        $employees = $this->checkup_service->getCheckUpCurrentMonth();
+        // dd($employees);
+        $packages = Package::pluck('package_name', 'id');
+
+        return view('checkup.checkup_current_month',[
+            'employees' => $employees,
+            'packages'  => $packages
+        ]);
+    }
+
+    /*
+    * Get Hospital data selected by package
+    */
+    public function getHospital(Request $request)
+    {
+
+        $package = $this->checkup_service->getHospital($request);
+
+        return response()->json($package);
+    }
+
+
+    public function informCheckup(Request $request)
+    {
+        // dd($request->all());
+
+        $checkup = $this->checkup_service->informCheckup($request);
+
+        return back()->with('success', 'Employees informed successfully.');
+    }
 }

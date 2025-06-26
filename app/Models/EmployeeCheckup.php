@@ -14,7 +14,7 @@ class EmployeeCheckup extends Model
 
     protected $table = 'employee_checkups';
 
-    protected $fillabel = [
+    protected $fillable = [
         'employee_id',
         'package_id',
         'check_flg',
