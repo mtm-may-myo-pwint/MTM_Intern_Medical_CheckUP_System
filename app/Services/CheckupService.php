@@ -118,15 +118,20 @@ class CheckupService
                                             SELECT MAX(checkup_date)
                                             FROM employee_checkups
                                             WHERE employee_checkups.employee_id = employees.id
-                                        ) <= ?', [$lastyear])
-                                        ->orWhereDoesntHave('employeeCheckup');
+                                        ) <= ?', [$lastyear]);
                                 });
                             })
                             ->get();
 
         return $employee;
     }
-
+    
+    /**
+     * getHospital
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function getHospital (Request $request){
 
         $package = Package::with('hospital')->findOrFail($request->package_id);
@@ -134,7 +139,13 @@ class CheckupService
         return $package;
         
     }
-
+    
+    /**
+     * informCheckup
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function informCheckup(Request $request){
 
         try {
@@ -143,7 +154,6 @@ class CheckupService
             if(!empty($request->checkup)){
 
                 foreach($request->checkup as $checkup){
-     
                      EmployeeCheckup::create([
                          'employee_id'           => $checkup,
                          'package_id'            => $request->package_id,
@@ -161,6 +171,15 @@ class CheckupService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function getCheckUpSurvey(){
+
+        $user = auth()->user();
+
+        $employee_history = EmployeeCheckup::where('status',GeneralConst::INFORM)->groupBy('form_deadline_date')->get();
+        
+        return $employee_history;
     }
 
 }

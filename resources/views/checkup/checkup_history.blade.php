@@ -115,28 +115,6 @@
                     search: search
                 },
                success: function(response) {
-                    // console.log('response',response);
-                    
-                    // let html = "";
-
-                    // if(response.html.data.length > 0){
-                    //     response.html.data.forEach((histories, groupIndex) => {
-                    //         histories.forEach((history, index) => {
-                    //             html += `<tr>`;
-                    //             if (index === 0) {
-                    //                 html += `<td rowspan="${histories.length}" class="text-center">${groupIndex + 1}</td>`;
-                    //                 html += `<td rowspan="${histories.length}" class="text-center">${history.employee?.name ?? ''}</td>`;
-    
-                    //             }
-                    //             html += `<td class="text-center">${history.last_vaccinated_date ?? ''}</td>`;
-                    //             html += `<td class="text-center">${history.checkup_date ?? ''}</td>`;
-                    //             html += `<td class="text-center">${history.package?.package_name ?? ''}</td>`;
-                    //             html += `<td class="text-center">${history.optional_test ?? ''}</td>`;
-                    //             html += `</tr>`;
-                    //         });
-                    //     });
-                    // }
-
                     $('#tbody').html(response.html); 
                     $('#pagination').html(response.pagination);
 
@@ -174,8 +152,6 @@
                     resign_member: resign_member
                 },
                 success: function(response) {
-                    // console.log('res',response);
-                    
                     $('#tbody').html(response.html);
                     $('#pagination').html(response.pagination);
                 }

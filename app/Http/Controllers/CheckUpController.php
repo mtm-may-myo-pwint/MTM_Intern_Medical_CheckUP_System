@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Services\CheckupService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\CheckupInformRequest;
 
 class CheckUpController extends Controller
 {
@@ -17,7 +18,12 @@ class CheckUpController extends Controller
     {
         $this->checkup_service = new CheckupService();
     }
-
+    
+    /**
+     * getCheckUpHistory
+     *
+     * @return void
+     */
     public function getCheckUpHistory()
     {
         abort_if(Gate::denies('is_admin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -56,6 +62,7 @@ class CheckUpController extends Controller
     */
     public function getCheckUpCurrentMonth()
     {
+        abort_if(Gate::denies('is_admin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $employees = $this->checkup_service->getCheckUpCurrentMonth();
         // dd($employees);
@@ -78,13 +85,30 @@ class CheckUpController extends Controller
         return response()->json($package);
     }
 
-
-    public function informCheckup(Request $request)
+    
+    /**
+     * informCheckup
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function informCheckup(CheckupInformRequest $request)
     {
         // dd($request->all());
 
         $checkup = $this->checkup_service->informCheckup($request);
 
         return back()->with('success', 'Employees informed successfully.');
+    }
+
+    public function getCheckUpSurvey()
+    {
+        abort_if(Gate::denies('is_user'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
+        $checkup_survey = $this->checkup_service->getCheckUpSurvey();
+
+        dd($checkup_survey);
+
+        return view('checkup.checkup_survey');
     }
 }

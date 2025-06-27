@@ -6,16 +6,23 @@
         <div class="col-md-12">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="{{ route('user.list') }}">{{ GeneralConst::APP_NAME }}</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('user.list') ? 'active' : '' }} me-2 "  href="{{ route('user.list') }}">
                                 <i class="fas fa-address-book"></i> {{ __('Users') }}
                             </a>
+                        </li> -->
+                        @can('is_user')
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('user.list') ? 'active' : '' }} me-2 "  href="{{ route('user.list') }}">
+                                <i class="fas fa-address-book"></i> {{ __('Check-up Survey') }}
+                            </a>
                         </li>
+                        @endcan
                         @can('is_admin')
                         <li class="nav-item active">
                             <a class="nav-link {{ request()->routeIs('employee.index') ? 'active' : '' }} me-2" href="{{ route('employee.index') }}">

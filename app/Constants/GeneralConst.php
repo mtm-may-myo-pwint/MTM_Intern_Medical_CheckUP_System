@@ -49,5 +49,12 @@ class GeneralConst
 
     public const TURE = 1;
     public const FALSE = 0;
+
+    public const CHECKUP = 1 ;
+    public const UNCHECK = 0 ;
+    public const CHECK_FLG = [
+        self::CHECKUP => 'Check-up',
+        self::UNCHECK => 'Uncheck'
+    ];
     
 }

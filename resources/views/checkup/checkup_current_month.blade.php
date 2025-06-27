@@ -12,7 +12,7 @@
     <h3 class="text-center mb-4">Check-up Current Month</h3>
     <div class="card">
         <div class="card-body">
-            <form action="{{route('checkup.inform')}}" method="post">
+            <form action="{{route('checkup.inform')}}" method="post" id="myForm">
                 @csrf
                 <table class="table table-bordered">
                     <thead class="table-secondary">
@@ -39,25 +39,29 @@
                                     {{ $last_checkup_date ?? '' }}
                                 </td>
                                 <td class="d-flex justify-content-center">
-                                    <!-- @php
+                                    @php
                                         $inform = $employee->employeeCheckup->where('status',GeneralConst::INFORM)->first();
                                     @endphp
 
                                     @if($inform)
-                                        <span class="badge bg-primary">Finish</span>
+                                        <span class="badge bg-light text-primary">Finish</span>
                                     @else
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{$employee->id}}" name="checkup[]" id="checkup">
+                                        <input class="form-check-input" type="checkbox"  value="{{ $employee->id }}"  name="checkup[{{ $employee->id }}]" id="checkup{{ $employee->id }}" 
+                                        @if (old('checkup.' . $employee->id) == $employee->id) checked @endif>
                                     </div>
-                                    @endif -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{$employee->id}}" name="checkup[]" id="checkup">
-                                    </div>
+                                    @endif
                                 </td>
                             </tr>
-                        @endforeach
+                            @endforeach
                     </tbody>
                 </table>
+                @error('checkup')
+                    <div class="text-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
+               
                 <div class="card mt-4">
                     <div class="card-body">
                         <div class="row">
@@ -67,20 +71,30 @@
                                 <select class="form-control" id="package_id" name="package_id">
                                     <option value="">Choose Package</option>
                                     @foreach($packages as $id => $name)
-                                        <option value="{{ $id }}">{{ $name }}</option>
+                                        <option value="{{ $id }}" {{ old('package_id') == $id ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
                                 </select>
+                                @error('package_id')
+                                    <div class="text-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-md-3 form-group">
                                 <div class="form-label">{{__('Hospital')}}</div>
-                                <input type="text" class="form-control" name="hospital_id" id="hospital_id" value="{{ old('hospital_id') }}" disabled>
+                                <input type="text" class="form-control" name="hospital_id" id="hospital_id" value="{{ old('hospital_id') }}" readonly>
                             </div>
                             <div class="col-md-3 form-group">
                                 <div class="form-label">{{__('Deadline Date')}}</div>
-                                <input type="date" class="form-control" name="deadline_date" id="deadline_date" value="" min="{{ now()->addDay(1)->format('Y-m-d') }}">
+                                <input type="date" class="form-control" name="deadline_date" id="deadline_date" value="" min="{{ now()->addDay(1)->format('Y-m-d') }}" onkeydown="return false;">
+                                @error('deadline_date')
+                                    <div class="text-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-md-2 form-group d-flex align-items-end">
-                                <button type="submit" class="btn btn-outline-primary w-50"> {{__('Inform')}}</button>
+                                <button type="submit" class="btn btn-outline-primary w-50 inform"> {{__('Inform')}}</button>
                             </div>
                         </div>
                     </div>
@@ -104,11 +118,21 @@
                 package_id : package_id
             },
             success: function(response){
-                console.log('respones',response);
-                
                 $('#hospital_id').val(response.hospital.hospital_name)
             }
         })
+    })
+
+    $('.inform').on('click',function(event){
+        event.preventDefault();
+
+        let checkup = $('input:checkbox:checked');
+
+        if(checkup.length > 0){
+            $('#myForm').submit();
+        }else{
+            alert('Please select at least one employee to inform checkup!');
+        }
     })
 </script>
 @endsection

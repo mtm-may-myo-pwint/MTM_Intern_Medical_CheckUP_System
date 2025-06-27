@@ -40,7 +40,6 @@ class EmployeeImport implements ToCollection,WithHeadingRow
 
             $validator = Validator::make($row->toArray(),[
                 'employee_number'   => 'required|string|' . Rule::unique('employees', 'employee_number')->ignore($existingEmployee?->id),
-                // 'employee_number'   => 'required|string',
                 'name'              => 'required|string|max:100',
                 'email'             => 'required|email|max:50',
                 'position'          => 'required|'. Rule::in(GeneralConst::POSITION),
@@ -101,7 +100,12 @@ class EmployeeImport implements ToCollection,WithHeadingRow
     }
 
 
-    // to fix income excel date (excel date can be number or date)
+    /**
+     * parseExcelDate
+     * to fix income excel date (excel date can be number or date) 
+     * @param  mixed $value
+     * @return void
+     */
     public function parseExcelDate($value)
         {
             if (empty($value)) {

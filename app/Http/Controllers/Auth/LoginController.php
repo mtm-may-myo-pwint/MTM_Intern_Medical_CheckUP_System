@@ -39,7 +39,10 @@ class LoginController extends Controller
         // dd($user);
         if($user?->resign_date){
             return redirect()->route('login')->with('error','Resigned member can\'t be able to login');
+        }else if($user?->is_admin){
+            return redirect()->route('employee.index');
+        }else{
+            return redirect()->route('checkup.survey');
         }
-        return redirect()->route('user.list');
     }
 }

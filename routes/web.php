@@ -43,5 +43,8 @@ Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/checkup-current-month',[CheckUpController::class,'getCheckUpCurrentMonth'])->name('checkup.current_month');
     Route::get('/checkup-current-month/getHospital',[CheckUpController::class,'getHospital'])->name('checkup.current_month.gethospital');
     Route::post('/checkup-current-month/informCheckup',[CheckUpController::class,'informCheckup'])->name('checkup.inform');
+
+    // Check-up Survey
+    Route::get('/checkup-survey',[CheckUpController::class,'getCheckUpSurvey'])->name('checkup.survey');
     
 });
